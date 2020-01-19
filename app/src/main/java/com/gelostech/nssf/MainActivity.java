@@ -1,20 +1,20 @@
 package com.gelostech.nssf;
 
 import android.os.Bundle;
-
-import com.gelostech.nssf.data.Payment;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
+import com.gelostech.nssf.data.Payment;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -27,8 +27,8 @@ public class MainActivity extends AppCompatActivity {
         final TextView textView=findViewById(R.id.nssf);
         final EditText cash=findViewById(R.id.basicpay);
         final EditText nocash=findViewById(R.id.nocash);
-        final EditText pension=findViewById(R.id.penin);
-        final EditText insurance=findViewById(R.id.cover);
+        final TextView pension=findViewById(R.id.penout);
+        final TextView insurance=findViewById(R.id.cover);
         final CheckBox editself=findViewById(R.id.selfinput);
 
 
@@ -42,16 +42,26 @@ public class MainActivity extends AppCompatActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 try {
                     MainActivity.this.data.setBasicpay(Integer.parseInt(s.toString()));
-                    MainActivity.this.data.setSelf(editself.isSelected());
-
-                    textView.setText(Integer.toString(data.getGrossPay()-data.calculateNssftotal()-data.calculateNHIF() -data.calculatePAYE()));
-                }catch(RuntimeException r){
+                }catch(Exception r){
                     Log.e(" editgross ", r.toString());
                 }
+                textView.setText(Integer.toString(data.getNetPay()));
+                insurance.setText(Integer.toString(data.calculateNHIF()));
+                pension.setText(Integer.toString(data.calculateNssftotal()));
             }
 
             @Override
             public void afterTextChanged(Editable s) {
+
+            }
+        });
+        editself.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                MainActivity.this.data.setSelf(isChecked);
+                textView.setText(Integer.toString(data.getNetPay()));
+                insurance.setText(Integer.toString(data.calculateNHIF()));
+                pension.setText(Integer.toString(data.calculateNssftotal()));
 
             }
         });
@@ -65,12 +75,12 @@ public class MainActivity extends AppCompatActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 try {
                     MainActivity.this.data.setBenefits(Integer.parseInt(s.toString()));
-                    MainActivity.this.data.setSelf(editself.isSelected());
-
-                    textView.setText(Integer.toString(data.getGrossPay()-data.calculateNssftotal()-data.calculateNHIF() -data.calculatePAYE()));
-                }catch(RuntimeException r){
+                }catch(Exception r){
                     Log.e(" editgross ", r.toString());
                 }
+                textView.setText(Integer.toString(data.getNetPay()));
+                insurance.setText(Integer.toString(data.calculateNHIF()));
+                pension.setText(Integer.toString(data.calculateNssftotal()));
             }
 
             @Override
@@ -79,52 +89,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        pension.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                try {
-                    MainActivity.this.data.setPension(Integer.parseInt(s.toString()));
-                    MainActivity.this.data.setSelf(editself.isSelected());
-
-                    textView.setText(Integer.toString(data.getGrossPay()-data.calculateNssftotal()-data.calculateNHIF() -data.calculatePAYE()));
-                }catch(RuntimeException r){
-                    Log.e(" editgross ", r.toString());
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-        insurance.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                try {
-                    MainActivity.this.data.setCover(Integer.parseInt(s.toString()));
-                    MainActivity.this.data.setSelf(editself.isSelected());
-
-                    textView.setText(Integer.toString(data.getGrossPay()-data.calculateNssftotal()-data.calculateNHIF() -data.calculatePAYE()));
-                }catch(RuntimeException r){
-                    Log.e(" editgross ", r.toString());
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
 
     }
 

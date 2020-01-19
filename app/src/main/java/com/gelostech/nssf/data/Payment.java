@@ -94,7 +94,7 @@ public class Payment {
         remainder=getGrossPay()-12298;
 
         int count =1;
-        while(remainder-11587>0 | count>4){
+        while(remainder-11587>0 && count<5){
             if(remainder>=11587){
                 if (4 == count) {
                     taxablelower=getGrossPay();//max over
@@ -108,16 +108,20 @@ public class Payment {
             taxdeduction +=tire1;
             remainder-=11587;
             count++;
+            System.out.println(" bla");
         }
+
 
         return taxdeduction;
     }
 
 
     public int calculateNHIF(){
-        int nhifdeduction;
 
-        if(!selfemployed) {
+        if (selfemployed) {
+            return 500;
+        } else {
+            int nhifdeduction;
             if (getGrossPay() < 6000) {
                 nhifdeduction = 150;
             } else if (getGrossPay() < 8000) {
@@ -160,8 +164,6 @@ public class Payment {
                 nhifdeduction = 1700;
             }
             return nhifdeduction;
-        }else{
-            return 500;
         }
     }
 
@@ -181,5 +183,9 @@ public class Payment {
 
     public void setPension(int parseInt) {
 
+    }
+
+    public int getNetPay() {
+        return this.getGrossPay()-this.calculateNssftotal()-this.calculateNHIF() -this.calculatePAYE();
     }
 }
