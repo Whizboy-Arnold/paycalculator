@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">nssf</string>
     <string name="action_settings">Settings</string>
+    <string name="basicpay">BASIC PAY:</string>
+    <string name="breakdown">BREAKDOWN:</string>
+    <string name="benefits">NO CASH BENEFITS</string>
+    <string name="pension">PENSION</string>
+    <string name="insurance_cover">INSURANCE COVER</string>
 </resources>

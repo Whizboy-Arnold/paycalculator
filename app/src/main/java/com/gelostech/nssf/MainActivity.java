@@ -3,15 +3,17 @@ package com.gelostech.nssf;
 import android.os.Bundle;
 
 import com.gelostech.nssf.data.Payment;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import android.view.View;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
@@ -22,8 +24,107 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        TextView textView=findViewById(R.id.nssf);
-        textView.setText(Integer.toString(data.calculateNSSFhalf()));
+        final TextView textView=findViewById(R.id.nssf);
+        final EditText cash=findViewById(R.id.basicpay);
+        final EditText nocash=findViewById(R.id.nocash);
+        final EditText pension=findViewById(R.id.penin);
+        final EditText insurance=findViewById(R.id.cover);
+        final CheckBox editself=findViewById(R.id.selfinput);
+
+
+        cash.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                try {
+                    MainActivity.this.data.setBasicpay(Integer.parseInt(s.toString()));
+                    MainActivity.this.data.setSelf(editself.isSelected());
+
+                    textView.setText(Integer.toString(data.getGrossPay()-data.calculateNssftotal()-data.calculateNHIF() -data.calculatePAYE()));
+                }catch(RuntimeException r){
+                    Log.e(" editgross ", r.toString());
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        nocash.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                try {
+                    MainActivity.this.data.setBenefits(Integer.parseInt(s.toString()));
+                    MainActivity.this.data.setSelf(editself.isSelected());
+
+                    textView.setText(Integer.toString(data.getGrossPay()-data.calculateNssftotal()-data.calculateNHIF() -data.calculatePAYE()));
+                }catch(RuntimeException r){
+                    Log.e(" editgross ", r.toString());
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        pension.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                try {
+                    MainActivity.this.data.setPension(Integer.parseInt(s.toString()));
+                    MainActivity.this.data.setSelf(editself.isSelected());
+
+                    textView.setText(Integer.toString(data.getGrossPay()-data.calculateNssftotal()-data.calculateNHIF() -data.calculatePAYE()));
+                }catch(RuntimeException r){
+                    Log.e(" editgross ", r.toString());
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        insurance.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                try {
+                    MainActivity.this.data.setCover(Integer.parseInt(s.toString()));
+                    MainActivity.this.data.setSelf(editself.isSelected());
+
+                    textView.setText(Integer.toString(data.getGrossPay()-data.calculateNssftotal()-data.calculateNHIF() -data.calculatePAYE()));
+                }catch(RuntimeException r){
+                    Log.e(" editgross ", r.toString());
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
     }
 
@@ -38,18 +139,9 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
 
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
         ///intialize data
-        this.data=new Payment(2000);
-
+        data=new Payment();
     }
 
     @Override
