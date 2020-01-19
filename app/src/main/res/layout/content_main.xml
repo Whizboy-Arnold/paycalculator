@@ -107,6 +107,7 @@
                 android:textSize="18sp"
                 />
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -133,38 +134,58 @@
                 />
         </LinearLayout>
     </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:orientation="horizontal"
+
+    <LinearLayout  android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:orientation="vertical"
         android:weightSum="2"
         android:layout_alignParentBottom="true"
         >
-
         <TextView
-            android:id="@+id/nssf"
-            android:layout_height="match_parent"
+            android:id="@+id/resultshead"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
             android:gravity="center"
-            android:textStyle="bold"
-            android:textSize="30sp"
-            android:layout_width="0dp"
             android:layout_weight="1"
-            android:text="00.00"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:text="@string/net_pay"
+            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="horizontal"
+            android:layout_weight="1"
+            android:weightSum="2"
+            android:layout_alignParentBottom="true"
+            >
+
+            <TextView
+                android:id="@+id/nssf"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:textSize="30sp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:text="00.00"
 
 
-            />
-        <TextView
-            android:id="@+id/breakdown"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:textStyle="bold"
-            android:textSize="16sp"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:text="@string/breakdown"
-            android:background="@color/colorPrimary"
-            android:textColor="@color/cardview_light_background"
-            />
+                />
+            <TextView
+                android:id="@+id/breakdown"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:text="@string/breakdown"
+                android:background="@color/colorPrimary"
+                android:textColor="@color/cardview_light_background"
+                />
+        </LinearLayout>
+
     </LinearLayout>
 
 
